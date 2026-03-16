@@ -1,15 +1,15 @@
-# WOLFCODE 🐺
+# OPEN-YT 🟥
 
-> The high-performance, minimalist YouTube engine for audio and video.
+> The high-performance, minimalist open-source YouTube engine for audio and video.
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Build: Nuitka](https://img.shields.io/badge/Build-Nuitka-orange.svg)](https://nuitka.net/)
+[![Build: PyInstaller](https://img.shields.io/badge/Build-PyInstaller-orange.svg)](https://pyinstaller.org/)
 
-![WOLFCODE Demo](assets/demo.gif)
+![OPEN-YT Demo](assets/open-yt-demo.gif)
 *(Nota: Aquí subiremos el GIF de la terminal en acción)*
 
-WOLFCODE es una Interfaz de Línea de Comandos (CLI) de grado industrial diseñada para extraer audio y video con la máxima eficiencia. Combina la potencia de `yt-dlp` con una experiencia de usuario (UX) minimalista, elegante y altamente configurable.
+OPEN-YT es una Interfaz de Línea de Comandos (CLI) de grado industrial diseñada para extraer audio y video con la máxima eficiencia. Combina la potencia de `yt-dlp` con una experiencia de usuario (UX) minimalista, elegante y altamente configurable.
 
 ## ✨ Características
 
@@ -22,10 +22,10 @@ WOLFCODE es una Interfaz de Línea de Comandos (CLI) de grado industrial diseña
 
 ## 🚀 Instalación (Recomendado)
 
-Para usar WOLFCODE en **Linux, Windows o Mac NO es necesario instalar Python ni configurar entornos**.
+Para usar OPEN-YT en **Linux, Windows o Mac NO es necesario instalar Python ni configurar entornos**.
 
 1. Ve a la sección de [Releases](../../releases) del repositorio.
-2. Descarga el ejecutable nativo correspondiente a tu sistema operativo (`wolfcode-linux`, `wolfcode-windows.exe`, etc.).
+2. Descarga el ejecutable nativo correspondiente a tu sistema operativo (ej. `open-yt-linux` o `open-yt-windows.exe`).
 3. Abre tu terminal y ejecútalo directamente.
 
 ---
@@ -36,12 +36,12 @@ Si deseas explorar el código fuente, modificar la herramienta o compilarla tú 
 
 ```bash
 # 1. Clonar el repositorio
-git clone [https://github.com/tu-usuario/wolfcode.git](https://github.com/tu-usuario/wolfcode.git)
-cd wolfcode
+git clone [https://github.com/tu-usuario/open-yt.git](https://github.com/tu-usuario/open-yt.git)
+cd open-yt
 
 # 2. Crear y activar el entorno virtual
 python -m venv .venv
 source .venv/bin/activate  # En Windows usa: .venv\Scripts\activate
 
 # 3. Instalar dependencias
-pip install -r requirements.txt # o usa Poetry/pipenv si lo configuraste
+pip install -r requirements.txt
