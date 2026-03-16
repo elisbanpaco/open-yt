@@ -7,7 +7,6 @@
 [![Build: PyInstaller](https://img.shields.io/badge/Build-PyInstaller-orange.svg)](https://pyinstaller.org/)
 
 ![OPEN-YT Demo](assets/open-yt-demo.gif)
-*(Nota: Aquí subiremos el GIF de la terminal en acción)*
 
 OPEN-YT es una Interfaz de Línea de Comandos (CLI) de grado industrial diseñada para extraer audio y video con la máxima eficiencia. Combina la potencia de `yt-dlp` con una experiencia de usuario (UX) minimalista, elegante y altamente configurable.
 
@@ -36,7 +35,7 @@ Si deseas explorar el código fuente, modificar la herramienta o compilarla tú 
 
 ```bash
 # 1. Clonar el repositorio
-git clone [https://github.com/tu-usuario/open-yt.git](https://github.com/tu-usuario/open-yt.git)
+git clone [https://github.com/elisbanpaco/open-yt.git](https://github.com/elisbanpaco/open-yt.git)
 cd open-yt
 
 # 2. Crear y activar el entorno virtual

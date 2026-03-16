@@ -23,7 +23,7 @@ tomli_w==1.2.0
 typer==0.24.1
 typing-inspection==0.4.2
 typing_extensions==4.15.0
--e git+https://github.com/elisbanpaccoaccha/download-music-video---free.git@468f0812a4a38c3575b0ddc559fdc57b69b770f3#egg=wavecli
+-e git+https://github.com/elisbanpaco/open-yt.git@f0c0e5f9f08ff0da214f54541829172f087f0f87#egg=wavecli
 wcwidth==0.6.0
 yt-dlp==2026.3.13
 zstandard==0.25.0
