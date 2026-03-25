@@ -15,18 +15,30 @@ class MediaDownloader:
         self.settings = Settings.load()
         self._ydl_opts: Dict[str, Any] = {}
 
+    _THUMB_FORMATS = {"mp3", "m4a", "flac", "ogg", "opus"}
+
     def _get_audio_opts(self, quality: str, output_path: Path) -> Dict[str, Any]:
         """Genera opciones de yt-dlp para descarga de audio."""
+        codec = self.settings.default_audio_format
+        embed = self.settings.embed_thumbnail and codec in self._THUMB_FORMATS
+
+        postprocessors = [
+            {
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": codec,
+                "preferredquality": quality,
+            }
+        ]
+
+        if embed:
+            postprocessors.append({"key": "EmbedThumbnail"})
+
         return {
             "format": "bestaudio/best",
             "outtmpl": str(output_path / "%(title)s.%(ext)s"),
-            "postprocessors": [
-                {
-                    "key": "FFmpegExtractAudio",
-                    "preferredcodec": self.settings.default_audio_format,
-                    "preferredquality": quality,
-                }
-            ],
+            "postprocessors": postprocessors,
+            "writethumbnail": embed,
+            "embedthumbnail": embed,
             "progress_hooks": [ProgressHook()],
             "quiet": True,
             "no_warnings": True,
