@@ -145,7 +145,14 @@ def show_current_config(config_dict: Dict[str, Any]) -> None:
     )
     content.append("Video\n",                                  style=f"bold {_C2}")
     content.append(
-        f"  Formato: {video_format}  |  Resolución: {video_res}p",
+        f"  Formato: {video_format}  |  Resolución: {video_res}p\n\n",
+        style="white",
+    )
+    content.append("Extras\n",                                 style=f"bold {_C2}")
+    embed_thumb = config_dict.get("embed_thumbnail", True)
+    thumb_status = "Activada" if embed_thumb else "Desactivada"
+    content.append(
+        f"  Portada incrustada: {thumb_status}",
         style="white",
     )
 
