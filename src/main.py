@@ -185,6 +185,7 @@ def config_show():
         "default_audio_quality": settings.default_audio_quality,
         "default_video_format": settings.default_video_format,
         "default_video_res": settings.default_video_res,
+        "embed_thumbnail": settings.embed_thumbnail,
     }
     show_current_config(config_dict)
 
@@ -201,6 +202,7 @@ def config_menu() -> None:
                 "Cambiar calidad de audio",
                 "Cambiar formato de video",
                 "Cambiar resolucion de video",
+                "Alternar portada incrustada",
                 "Volver al menu principal",
             ],
             qmark=">",
@@ -312,6 +314,15 @@ def config_menu() -> None:
                 console.print("[green]Configuracion actualizada y guardada.[/green]")
             continue
 
+        if choice == "Alternar portada incrustada":
+            settings = get_settings()
+            settings.embed_thumbnail = not settings.embed_thumbnail
+            settings.save()
+            reload_settings()
+            status = "activada" if settings.embed_thumbnail else "desactivada"
+            console.print(f"[green]Portada incrustada {status}.[/green]")
+            continue
+
 
 @config_app.command("set")
 def config_set(
@@ -331,6 +342,8 @@ def config_set(
         settings.default_audio_quality = value
     elif key == "default_video_format":
         settings.default_video_format = value
+    elif key == "embed_thumbnail":
+        settings.embed_thumbnail = value.lower() in ("true", "1", "yes")
     else:
         console.print(f"[red]Clave desconocida:[/red] {key}")
         return
