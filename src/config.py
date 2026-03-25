@@ -33,6 +33,10 @@ class Settings(BaseSettings):
         default="mp4",
         description="Formato de video predeterminado",
     )
+    embed_thumbnail: bool = Field(
+        default=True,
+        description="Incrustar portada en archivos de audio",
+    )
 
     @classmethod
     def get_config_path(cls) -> Path:
@@ -60,6 +64,7 @@ class Settings(BaseSettings):
             "default_video_res": self.default_video_res,
             "default_audio_quality": self.default_audio_quality,
             "default_video_format": self.default_video_format,
+            "embed_thumbnail": self.embed_thumbnail,
         }
         
         try:
