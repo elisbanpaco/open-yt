@@ -44,3 +44,6 @@ source .venv/bin/activate  # En Windows usa: .venv\Scripts\activate
 
 # 3. Instalar dependencias
 pip install -r requirements.txt
+
+# 4. Ejecutar
+python src/main.py
