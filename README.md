@@ -19,13 +19,19 @@ OPEN-YT es una Interfaz de Línea de Comandos (CLI) de grado industrial diseñad
 
 ---
 
-## 🚀 Instalación (Recomendado)
 
-Para usar OPEN-YT en **Linux, Windows o Mac NO es necesario instalar Python ni configurar entornos**.
+## 🚀 Instalación (Recomendada)
 
-1. Ve a la sección de [Releases](../../releases) del repositorio.
-2. Descarga el ejecutable nativo correspondiente a tu sistema operativo (ej. `open-yt-linux` o `open-yt-windows.exe`).
-3. Abre tu terminal y ejecútalo directamente.
+Puedes instalar OPEN-YT globalmente en tu sistema en cuestión de segundos utilizando gestores de herramientas modernas de Python como `uv` o `pipx` (recomendado para no ensuciar tu entorno local):
+
+Usando **uv** (Más rápido):
+```bash
+uv tool install open-yt
+
+Usando **pip** (Más usada):
+```bash
+pip install open-yt
+
 
 ---
 
@@ -42,4 +48,4 @@ cd open-yt
 uv sync
 
 # 3. Ejecutar
-uv run python src/main.py
+uv run open-yt
