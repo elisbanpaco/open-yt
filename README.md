@@ -15,7 +15,7 @@ OPEN-YT es una Interfaz de Línea de Comandos (CLI) de grado industrial diseñad
 * **UI/UX Premium:** Interfaz de terminal renderizada con `Rich` y menús interactivos fluidos potenciados por `Questionary`.
 * **Motor Asíncrono:** Descargas ultra rápidas y extracción de metadatos sin bloquear la interfaz.
 * **Persistencia de Estado:** Recuerda tus preferencias de formato (MP3, FLAC, MP4, MKV), resolución y rutas de descarga localmente.
-* **Multiplataforma y Portable:** Distribuido como un binario único. Cero dependencias requeridas para el usuario final.
+* **Instalación Global Directa:** Distribuido a través de PyPI. Se instala como un comando de sistema disponible desde cualquier terminal.
 
 ---
 
@@ -27,11 +27,12 @@ Puedes instalar OPEN-YT globalmente en tu sistema en cuestión de segundos utili
 Usando **uv** (Más rápido):
 ```bash
 uv tool install open-yt
+```
 
 Usando **pip** (Más usada):
 ```bash
 pip install open-yt
-
+```
 
 ---
 
