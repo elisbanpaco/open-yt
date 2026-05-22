@@ -35,15 +35,11 @@ Si deseas explorar el código fuente, modificar la herramienta o compilarla tú 
 
 ```bash
 # 1. Clonar el repositorio
-git clone [https://github.com/elisbanpaco/open-yt.git](https://github.com/elisbanpaco/open-yt.git)
+git clone https://github.com/elisbanpaco/open-yt.git
 cd open-yt
 
-# 2. Crear y activar el entorno virtual
-python -m venv .venv
-source .venv/bin/activate  # En Windows usa: .venv\Scripts\activate
+# 2. Crear el entorno virtual e instalar dependencias
+uv sync
 
-# 3. Instalar dependencias
-pip install -r requirements.txt
-
-# 4. Ejecutar
-python src/main.py
+# 3. Ejecutar
+uv run python src/main.py
