@@ -73,8 +73,8 @@ wheels = [
 
 [[package]]
 name = "open-yt"
-version = "0.1.0"
-source = { virtual = "." }
+version = "0.1.1.4"
+source = { editable = "." }
 dependencies = [
     { name = "mutagen" },
     { name = "pydantic-settings" },
