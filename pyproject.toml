@@ -1,6 +1,10 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "open-yt"
-version = "0.1.0"
+version = "0.1.1.4"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
@@ -14,3 +18,9 @@ dependencies = [
     "typer>=0.25.1",
     "yt-dlp>=2026.3.17",
 ]
+
+[project.scripts]
+open-yt = "open_yt.main:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/open_yt"]
