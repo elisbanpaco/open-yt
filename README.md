@@ -2,9 +2,9 @@
 
 > The high-performance, minimalist open-source YouTube engine for audio and video.
 
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![PyPI version](https://img.shields.io/pypi/v/open-yt.svg)](https://pypi.org/project/open-yt/)
+[![Python 3.13+](https://img.shields.io/badge/Python-3.13+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Build: PyInstaller](https://img.shields.io/badge/Build-PyInstaller-orange.svg)](https://pyinstaller.org/)
 
 ![OPEN-YT Demo](assets/open-yt-demo.gif)
 
