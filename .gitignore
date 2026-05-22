@@ -58,10 +58,10 @@ Thumbs.db
 # uv
 .uv/
 
-# Testing (si agregas pytest en el futuro)
+# Testing
 .pytest_cache/
 .coverage
 htmlcov/
 
-# Type checking (si agregas mypy en el futuro)
+# Type checking 
 .mypy_cache/
