@@ -81,24 +81,28 @@ def show_welcome_screen() -> None:
     console.print(Rule(style=_DIM), width=68)
     console.print()
 
-def format_duration(seconds: int) -> str:
+def format_duration(seconds: Optional[int]) -> str:
+    if seconds is None:
+        seconds = 0
     hours, remainder = divmod(seconds, 3600)
     minutes, seconds = divmod(remainder, 60)
     return f"{hours:02d}:{minutes:02d}:{seconds:02d}" if hours else f"{minutes:02d}:{seconds:02d}"
 
 
-def format_number(num: int) -> str:
+def format_number(num: Optional[int]) -> str:
+    if num is None:
+        num = 0
     return f"{num:,}"
 
 
 def show_media_card(info_dict: Dict[str, Any]) -> None:
     """Tarjeta de metadatos con paleta naranja-dorada."""
-    title = info_dict.get("title", "Unknown")
-    duration = format_duration(info_dict.get("duration", 0))
-    channel = info_dict.get("uploader") or info_dict.get("channel", "Unknown")
-    views = format_number(info_dict.get("view_count", 0))
-    likes = format_number(info_dict.get("like_count", 0))
-    upload_date = info_dict.get("upload_date", "Unknown")
+    title = info_dict.get("title") or "Unknown"
+    duration = format_duration(info_dict.get("duration") or 0)
+    channel = info_dict.get("uploader") or info_dict.get("channel") or "Unknown"
+    views = format_number(info_dict.get("view_count") or 0)
+    likes = format_number(info_dict.get("like_count") or 0)
+    upload_date = info_dict.get("upload_date") or "Unknown"
 
     tbl = Table(box=None, show_header=False, padding=(0, 1))
     tbl.add_column("Label", style=_LABEL, width=14)
