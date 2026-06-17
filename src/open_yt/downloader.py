@@ -8,13 +8,21 @@ from open_yt.i18n import _
 from open_yt.ui import ProgressHook, console, show_media_info, get_status_spinner
 
 
+class SilentLogger:
+    """Silencia los logs crudos de yt-dlp para manejar los errores nosotros mismos."""
+    def debug(self, msg): pass
+    def info(self, msg): pass
+    def warning(self, msg): pass
+    def error(self, msg): pass
+
 class MediaDownloader:
-    """Clase principal para descargas de medios usando yt-dlp."""
+    """Clase principal para la descarga de media usando yt-dlp."""
 
     def __init__(self) -> None:
         """Inicializa el descargador con la configuración."""
         self.settings = Settings.load()
         self._ydl_opts: Dict[str, Any] = {}
+        self._logger = SilentLogger()
 
     _THUMB_FORMATS = {"mp3", "m4a", "flac", "ogg", "opus"}
 
@@ -49,19 +57,33 @@ class MediaDownloader:
             "quiet": True,
             "no_warnings": True,
             "noplaylist": True,
+            "logger": self._logger,
         }
 
     def _get_video_opts(self, quality: str, output_path: Path) -> Dict[str, Any]:
         """Genera opciones de yt-dlp para descarga de video."""
         format_str = f"bestvideo[height<={quality}]+bestaudio/best" if quality != "best" else "best"
-        return {
+        
+        postprocessors = []
+        if self.settings.embed_thumbnail:
+            postprocessors.append({"key": "EmbedThumbnail"})
+            
+        opts = {
             "format": format_str,
+            "merge_output_format": self.settings.default_video_format,
             "outtmpl": str(output_path / "%(title)s.%(ext)s"),
             "progress_hooks": [ProgressHook()],
             "quiet": True,
             "no_warnings": True,
             "noplaylist": True,
+            "logger": self._logger,
         }
+        
+        if self.settings.embed_thumbnail:
+            opts["writethumbnail"] = True
+            opts["postprocessors"] = postprocessors
+            
+        return opts
 
     def _extract_info(self, url: str) -> Dict[str, Any]:
         """Extrae metadatos del video sin descargar."""
@@ -70,6 +92,7 @@ class MediaDownloader:
             "no_warnings": True,
             "extract_flat": False,
             "noplaylist": True,
+            "logger": self._logger,
         }
         with get_status_spinner(_("Extracting metadata...")):
             with yt_dlp.YoutubeDL(opts) as ydl:
