@@ -243,6 +243,12 @@ def config_show():
     show_current_config(config_dict)
 
 
+@config_app.callback(invoke_without_command=True)
+def config_callback(ctx: typer.Context):
+    """Gestor interactivo de configuración"""
+    if ctx.invoked_subcommand is None:
+        config_menu()
+
 def config_menu() -> None:
     """Menu interactivo de configuracion dinámica."""
     while True:
@@ -410,6 +416,39 @@ def version():
     """Mostrar version de la aplicacion"""
     console.print("[cyan bold]WOLFCODE v1.0.0[/cyan bold]")
 
+@app.command("get", hidden=True)
+def fast_download(
+    url: str = typer.Argument(..., help="URL del video o playlist"),
+    audio: bool = typer.Option(False, "--audio", "-a", help="Forzar descarga de solo audio"),
+    video: bool = typer.Option(False, "--video", "-v", help="Forzar descarga de video"),
+    quality: str = typer.Option("best", "--quality", "-q", help="Calidad (best, 1080p, 720p, 320, etc.)"),
+    output: Optional[str] = typer.Option(None, "--output", "-o", help="Directorio de salida"),
+    playlist: bool = typer.Option(False, "--playlist", "-p", help="Descargar playlist completa"),
+):
+    """Ruta rápida para descargar sin interactuar."""
+    output_path = Path(output) if output else None
+    downloader = MediaDownloader()
+    
+    # Lógica de decisión rápida
+    # Si pasa -a, es audio. Si no, por defecto video (a menos que settings diga otra cosa, pero en CLI rápido video tiene sentido para youtube)
+    if audio:
+        success = downloader.download_audio(url, quality=quality, output=output_path)
+    else:
+        success = downloader.download_video(url, quality=quality, output=output_path)
+        
+    if not success:
+        raise typer.Exit(1)
+
+
+def cli_main():
+    """Punto de entrada principal para interceptar argumentos antes de Typer."""
+    if len(sys.argv) > 1:
+        first_arg = sys.argv[1]
+        known_commands = ["video", "audio", "config", "version", "get", "--help", "-h"]
+        if first_arg not in known_commands and not first_arg.startswith("-"):
+            # Asumimos que es una URL o ID, lo ruteamos al comando rápido 'get'
+            sys.argv.insert(1, "get")
+    app()
 
 if __name__ == "__main__":
-    app()
+    cli_main()

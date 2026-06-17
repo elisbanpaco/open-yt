@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [project.scripts]
-open-yt = "open_yt.main:app"
+open-yt = "open_yt.main:cli_main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/open_yt"]
