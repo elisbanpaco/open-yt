@@ -243,10 +243,6 @@ class ProgressHook:
             self._progress.stop()
             self._progress = None
             self._task_id  = None
-        console.print(
-            f"[{_OK}]✓[/{_OK}] [white]{_('Download complete:')}[/white] "
-            f"[{_C2}]{d.get('filename', '')}[/{_C2}]"
-        )
 
     def _handle_error(self, d: Dict[str, Any]) -> None:
         if self._progress:
