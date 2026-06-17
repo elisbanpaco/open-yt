@@ -1,5 +1,6 @@
 import os
 import sys
+import subprocess
 import typer
 from pathlib import Path
 from typing import Any, Optional
@@ -426,6 +427,33 @@ def version():
     """Mostrar version de la aplicacion"""
     console.print("[cyan bold]OPEN-YT v0.1.1.6[/cyan bold]")
 
+@app.command()
+def update():
+    """Actualiza el motor de descarga (yt-dlp) para evitar bloqueos de YouTube."""
+    import shutil
+    console.print("[yellow]Buscando actualizaciones críticas para el motor (yt-dlp)...[/yellow]")
+    
+    if shutil.which("uv"):
+        cmd = ["uv", "pip", "install", "--upgrade", "yt-dlp"]
+    else:
+        cmd = [sys.executable, "-m", "pip", "install", "--upgrade", "yt-dlp"]
+
+    try:
+        # Ejecutamos de forma silenciosa
+        result = subprocess.run(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        if result.returncode == 0:
+            console.print("[green]✓ Motor actualizado y afinado con éxito. ¡Listo para descargar![/green]")
+        else:
+            console.print("[red]✗ No se pudo actualizar automáticamente. Ejecuta manualmente:[/red]")
+            console.print("   [cyan]pip install --upgrade yt-dlp[/cyan]")
+    except Exception as e:
+        console.print(f"[red]✗ Error fatal al intentar actualizar: {e}[/red]")
+
 @app.command("get", hidden=True)
 def fast_download(
     url: str = typer.Argument(..., help="URL del video o playlist"),
@@ -454,7 +482,7 @@ def cli_main():
     """Punto de entrada principal para interceptar argumentos antes de Typer."""
     if len(sys.argv) > 1:
         first_arg = sys.argv[1]
-        known_commands = ["video", "audio", "config", "version", "get", "--help", "-h"]
+        known_commands = ["video", "audio", "config", "version", "get", "update", "help", "--help", "-h"]
         if first_arg not in known_commands and not first_arg.startswith("-"):
             # Asumimos que es una URL o ID, lo ruteamos al comando rápido 'get'
             sys.argv.insert(1, "get")
