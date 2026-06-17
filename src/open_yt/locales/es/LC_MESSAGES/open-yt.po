@@ -211,3 +211,49 @@ msgstr "desactivada"
 
 msgid "Embedded thumbnail"
 msgstr "Portada incrustada"
+
+msgid "Download from URL"
+msgstr "Descargar desde URL"
+
+msgid "What do you want to extract?"
+msgstr "Que deseas extraer?"
+
+msgid "Quick Audio Download ({format} {quality}kbps)"
+msgstr "Descarga Rapida de Audio ({format} {quality}kbps)"
+
+msgid "Quick Video Download ({res}p)"
+msgstr "Descarga Rapida de Video ({res}p)"
+
+msgid "Custom Audio Download..."
+msgstr "Descarga Personalizada de Audio..."
+
+msgid "Custom Video Download..."
+msgstr "Descarga Personalizada de Video..."
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Select audio format:"
+msgstr "Selecciona el formato de audio:"
+
+msgid "Select quality (kbps):"
+msgstr "Selecciona la calidad (kbps):"
+
+msgid "Select video resolution:"
+msgstr "Selecciona la resolucion de video:"
+
+msgid "Download directory"
+msgstr "Directorio de descarga"
+
+msgid "Default format"
+msgstr "Formato por defecto"
+
+msgid "Default quality"
+msgstr "Calidad por defecto"
+
+msgid "Default resolution"
+msgstr "Resolucion por defecto"
+
+msgid "Configuration (Select to edit)"
+msgstr "Configuracion (Selecciona para editar)"
+
