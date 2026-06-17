@@ -12,6 +12,7 @@ from rich.table import Table
 from open_yt.config import Settings, get_settings, reload_settings
 from open_yt.downloader import MediaDownloader
 from open_yt.ui import show_panel, show_welcome_screen, show_current_config
+from open_yt.i18n import _
 
 app = typer.Typer(
     name="wolfcode",
@@ -53,52 +54,52 @@ def safe_questionary(prompt_func) -> Optional[Any]:
 def run_interactive_menu() -> None:
     """Ejecuta el menú interactivo con questionary."""
     choice = safe_questionary(lambda: questionary.select(
-        "Que deseas hacer?",
+        _("What do you want to do?"),
         choices=[
-            "Descargar Audio",
-            "Descargar Video",
-            "Configuracion",
-            "Salir",
+            _("Download Audio"),
+            _("Download Video"),
+            _("Configuration"),
+            _("Exit"),
         ],
         qmark=">",
         style=WAVE_STYLE,
     ).ask())
 
-    if choice == "Salir" or choice is None:
-        console.print("\n[dim]Hasta luego.[/dim]")
+    if choice == _("Exit") or choice is None:
+        console.print(f"\n[dim]{_('Goodbye.')}[/dim]")
         return
 
-    if choice == "Configuracion":
+    if choice == _("Configuration"):
         config_menu()
         run_interactive_menu()
         return
 
     url = safe_questionary(lambda: questionary.text(
-        "Ingresa la URL de YouTube:",
+        _("Enter YouTube URL:"),
         qmark=">",
         style=WAVE_STYLE,
-        validate=lambda x: len(x) > 0 or "Por favor ingresa una URL valida",
+        validate=lambda x: len(x) > 0 or _("Please enter a valid URL"),
     ).ask())
 
     if not url:
-        console.print("[red]URL requerida[/red]")
+        console.print(f"[red]{_('URL is required')}[/red]")
         run_interactive_menu()
         return
 
     downloader = MediaDownloader()
 
-    if choice == "Descargar Audio":
+    if choice == _("Download Audio"):
         success = downloader.download_audio(url)
     else:
         success = downloader.download_video(url)
 
     if success:
-        console.print("\n[green]✓[/green] Descarga completada")
+        console.print(f"\n[green]✓[/green] {_('Download complete')}")
     else:
-        console.print("\n[red]✗[/red] La descarga fallo")
+        console.print(f"\n[red]✗[/red] {_('Download failed')}")
 
     continue_choice = safe_questionary(lambda: questionary.confirm(
-        "Deseas realizar otra accion?",
+        _("Do you want to perform another action?"),
         default=True,
         style=WAVE_STYLE,
     ).ask())
@@ -106,7 +107,7 @@ def run_interactive_menu() -> None:
     if continue_choice:
         run_interactive_menu()
     else:
-        console.print("\n[dim]Hasta luego.[/dim]")
+        console.print(f"\n[dim]{_('Goodbye.')}[/dim]")
 
 
 @app.callback(invoke_without_command=True)
@@ -194,33 +195,33 @@ def config_menu() -> None:
     """Menu interactivo de configuracion."""
     while True:
         choice = safe_questionary(lambda: questionary.select(
-            "Configuracion",
+            _("Configuration"),
             choices=[
-                "Ver configuracion actual",
-                "Cambiar directorio de descarga",
-                "Cambiar formato de audio",
-                "Cambiar calidad de audio",
-                "Cambiar formato de video",
-                "Cambiar resolucion de video",
-                "Alternar portada incrustada",
-                "Volver al menu principal",
+                _("View current configuration"),
+                _("Change download directory"),
+                _("Change audio format"),
+                _("Change audio quality"),
+                _("Change video format"),
+                _("Change video resolution"),
+                _("Toggle embedded thumbnail"),
+                _("Return to main menu"),
             ],
             qmark=">",
             style=WAVE_STYLE,
         ).ask())
 
-        if choice == "Volver al menu principal" or choice is None:
+        if choice == _("Return to main menu") or choice is None:
             return
 
-        if choice == "Ver configuracion actual":
+        if choice == _("View current configuration"):
             config_show()
             continue
 
-        if choice == "Cambiar directorio de descarga":
+        if choice == _("Change download directory"):
             settings = get_settings()
             current_path = str(settings.download_path)
             new_path = safe_questionary(lambda: questionary.path(
-                f"Nueva ruta (actual: {current_path}):",
+                _("New path (current: {path}):").format(path=current_path),
                 default=current_path,
                 only_directories=True,
                 qmark=">",
@@ -231,29 +232,29 @@ def config_menu() -> None:
                 path = Path(new_path)
                 if not path.exists():
                     create = safe_questionary(lambda: questionary.confirm(
-                        f"El directorio '{new_path}' no existe. Desea crearlo?",
+                        _("Directory '{path}' does not exist. Create it?").format(path=new_path),
                         default=True,
                         style=WAVE_STYLE,
                     ).ask())
                     if create:
                         path.mkdir(parents=True, exist_ok=True)
                     else:
-                        console.print("[red]Directorio no creado. Configuracion sin cambios.[/red]")
+                        console.print(f"[red]{_('Directory not created. Configuration unchanged.')}[/red]")
                         continue
                 
                 if path.exists():
                     settings.download_path = path
                     settings.save()
                     reload_settings()
-                    console.print("[green]Configuracion actualizada y guardada.[/green]")
+                    console.print(f"[green]{_('Configuration updated and saved.')}[/green]")
                 else:
-                    console.print("[red]Directorio no valido.[/red]")
+                    console.print(f"[red]{_('Invalid directory.')}[/red]")
             continue
 
-        if choice == "Cambiar formato de audio":
+        if choice == _("Change audio format"):
             settings = get_settings()
             new_format = safe_questionary(lambda: questionary.select(
-                f"Selecciona el formato de audio (actual: {settings.default_audio_format}):",
+                _("Select audio format (current: {format}):").format(format=settings.default_audio_format),
                 choices=["mp3", "m4a", "wav", "flac"],
                 qmark=">",
                 style=WAVE_STYLE,
@@ -263,13 +264,13 @@ def config_menu() -> None:
                 settings.default_audio_format = new_format
                 settings.save()
                 reload_settings()
-                console.print("[green]Configuracion actualizada y guardada.[/green]")
+                console.print(f"[green]{_('Configuration updated and saved.')}[/green]")
             continue
 
-        if choice == "Cambiar calidad de audio":
+        if choice == _("Change audio quality"):
             settings = get_settings()
             new_quality = safe_questionary(lambda: questionary.select(
-                f"Selecciona la calidad de audio en kbps (actual: {settings.default_audio_quality}):",
+                _("Select audio quality in kbps (current: {quality}):").format(quality=settings.default_audio_quality),
                 choices=["320", "256", "192", "128"],
                 qmark=">",
                 style=WAVE_STYLE,
@@ -279,13 +280,13 @@ def config_menu() -> None:
                 settings.default_audio_quality = new_quality
                 settings.save()
                 reload_settings()
-                console.print("[green]Configuracion actualizada y guardada.[/green]")
+                console.print(f"[green]{_('Configuration updated and saved.')}[/green]")
             continue
 
-        if choice == "Cambiar formato de video":
+        if choice == _("Change video format"):
             settings = get_settings()
             new_format = safe_questionary(lambda: questionary.select(
-                f"Selecciona el formato de video (actual: {settings.default_video_format}):",
+                _("Select video format (current: {format}):").format(format=settings.default_video_format),
                 choices=["mp4", "mkv", "webm"],
                 qmark=">",
                 style=WAVE_STYLE,
@@ -295,13 +296,13 @@ def config_menu() -> None:
                 settings.default_video_format = new_format
                 settings.save()
                 reload_settings()
-                console.print("[green]Configuracion actualizada y guardada.[/green]")
+                console.print(f"[green]{_('Configuration updated and saved.')}[/green]")
             continue
 
-        if choice == "Cambiar resolucion de video":
+        if choice == _("Change video resolution"):
             settings = get_settings()
             new_res = safe_questionary(lambda: questionary.select(
-                f"Selecciona la resolucion de video (actual: {settings.default_video_res}p):",
+                _("Select video resolution (current: {res}p):").format(res=settings.default_video_res),
                 choices=["2160", "1080", "720", "480", "360"],
                 qmark=">",
                 style=WAVE_STYLE,
@@ -311,16 +312,16 @@ def config_menu() -> None:
                 settings.default_video_res = new_res
                 settings.save()
                 reload_settings()
-                console.print("[green]Configuracion actualizada y guardada.[/green]")
+                console.print(f"[green]{_('Configuration updated and saved.')}[/green]")
             continue
 
-        if choice == "Alternar portada incrustada":
+        if choice == _("Toggle embedded thumbnail"):
             settings = get_settings()
             settings.embed_thumbnail = not settings.embed_thumbnail
             settings.save()
             reload_settings()
-            status = "activada" if settings.embed_thumbnail else "desactivada"
-            console.print(f"[green]Portada incrustada {status}.[/green]")
+            status = _("enabled") if settings.embed_thumbnail else _("disabled")
+            console.print(f"[green]{_('Embedded thumbnail')} {status}.[/green]")
             continue
 
 

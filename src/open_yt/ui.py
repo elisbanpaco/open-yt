@@ -1,6 +1,8 @@
 from typing import Any, Dict, Optional
 
 from rich import box
+
+from open_yt.i18n import _
 from rich.console import Console
 from rich.panel import Panel
 from rich.progress import (
@@ -97,26 +99,26 @@ def format_number(num: Optional[int]) -> str:
 
 def show_media_card(info_dict: Dict[str, Any]) -> None:
     """Tarjeta de metadatos con paleta naranja-dorada."""
-    title = info_dict.get("title") or "Unknown"
+    title = info_dict.get("title") or _("Unknown")
     duration = format_duration(info_dict.get("duration") or 0)
-    channel = info_dict.get("uploader") or info_dict.get("channel") or "Unknown"
+    channel = info_dict.get("uploader") or info_dict.get("channel") or _("Unknown")
     views = format_number(info_dict.get("view_count") or 0)
     likes = format_number(info_dict.get("like_count") or 0)
-    upload_date = info_dict.get("upload_date") or "Unknown"
+    upload_date = info_dict.get("upload_date") or _("Unknown")
 
     tbl = Table(box=None, show_header=False, padding=(0, 1))
     tbl.add_column("Label", style=_LABEL, width=14)
     tbl.add_column("Value", style="white")
 
-    tbl.add_row("Titulo:",     title)
-    tbl.add_row("Canal:",      channel)
-    tbl.add_row("Duracion:",   duration)
-    tbl.add_row("Vistas:",     views)
-    tbl.add_row("Likes:",      likes)
-    tbl.add_row("Fecha:",      upload_date)
+    tbl.add_row(_("Title:"),     title)
+    tbl.add_row(_("Channel:"),   channel)
+    tbl.add_row(_("Duration:"),  duration)
+    tbl.add_row(_("Views:"),     views)
+    tbl.add_row(_("Likes:"),     likes)
+    tbl.add_row(_("Date:"),      upload_date)
 
     if info_dict.get("resolution") and info_dict.get("resolution") != "N/A":
-        tbl.add_row("Resolucion:", info_dict["resolution"])
+        tbl.add_row(_("Resolution:"), info_dict["resolution"])
 
     console.print(
         Panel(
@@ -125,7 +127,7 @@ def show_media_card(info_dict: Dict[str, Any]) -> None:
             border_style=_DIM,
             padding=(1, 2),
             width=75,
-            title=f"[{_C2}]Información[/{_C2}]",
+            title=f"[{_C2}]{_('Information')}[/{_C2}]",
             title_align="left",
         )
     )
@@ -140,23 +142,23 @@ def show_current_config(config_dict: Dict[str, Any]) -> None:
     video_res      = config_dict.get("default_video_res",         "N/A")
 
     content = Text()
-    content.append("Rutas\n",                                  style=f"bold {_C2}")
-    content.append(f"  Directorio: {download_path}\n\n",       style="white")
-    content.append("Audio\n",                                  style=f"bold {_C2}")
+    content.append(_("Paths") + "\n",                          style=f"bold {_C2}")
+    content.append(f"  {_('Directory:')} {download_path}\n\n",       style="white")
+    content.append(_("Audio") + "\n",                          style=f"bold {_C2}")
     content.append(
-        f"  Formato: {audio_format}  |  Calidad: {audio_quality} kbps\n\n",
+        f"  {_('Format:')} {audio_format}  |  {_('Quality:')} {audio_quality} kbps\n\n",
         style="white",
     )
-    content.append("Video\n",                                  style=f"bold {_C2}")
+    content.append(_("Video") + "\n",                          style=f"bold {_C2}")
     content.append(
-        f"  Formato: {video_format}  |  Resolución: {video_res}p\n\n",
+        f"  {_('Format:')} {video_format}  |  {_('Resolution:')} {video_res}p\n\n",
         style="white",
     )
-    content.append("Extras\n",                                 style=f"bold {_C2}")
+    content.append(_("Extras") + "\n",                         style=f"bold {_C2}")
     embed_thumb = config_dict.get("embed_thumbnail", True)
-    thumb_status = "Activada" if embed_thumb else "Desactivada"
+    thumb_status = _("Enabled") if embed_thumb else _("Disabled")
     content.append(
-        f"  Portada incrustada: {thumb_status}",
+        f"  {_('Embedded thumbnail:')} {thumb_status}",
         style="white",
     )
 
@@ -167,7 +169,7 @@ def show_current_config(config_dict: Dict[str, Any]) -> None:
             border_style=_DIM,
             padding=(1, 2),
             width=75,
-            title=f"[{_C2}]Configuración[/{_C2}]",
+            title=f"[{_C2}]{_('Configuration')}[/{_C2}]",
             title_align="left",
         )
     )
@@ -183,11 +185,11 @@ class ProgressHook:
 
     def __init__(
         self,
-        description: str = "Descargando",
+        description: Optional[str] = None,
         bar_style: str = _C2, 
         text_style: str = "white",
     ) -> None:
-        self.description = description
+        self.description = description or _("Downloading")
         self.bar_style   = bar_style
         self.text_style  = text_style
         self._progress: Optional[Progress] = None
@@ -221,13 +223,13 @@ class ProgressHook:
 
     def _handle_starting(self, d: Dict[str, Any]) -> None:
         total    = d.get("total_bytes") or d.get("total_bytes_estimate", 0)
-        filename = d.get("filename", "Archivo")
+        filename = d.get("filename", _("File"))
         self._init_progress(total, filename)
 
     def _handle_downloading(self, d: Dict[str, Any]) -> None:
         if self._progress is None or self._task_id is None:
             total    = d.get("total_bytes") or d.get("total_bytes_estimate", 0)
-            filename = d.get("filename", "Archivo")
+            filename = d.get("filename", _("File"))
             self._init_progress(total, filename)
 
         downloaded = d.get("downloaded_bytes", 0)
@@ -242,7 +244,7 @@ class ProgressHook:
             self._progress = None
             self._task_id  = None
         console.print(
-            f"[{_OK}]✓[/{_OK}] [white]Descarga completada:[/white] "
+            f"[{_OK}]✓[/{_OK}] [white]{_('Download complete:')}[/white] "
             f"[{_C2}]{d.get('filename', '')}[/{_C2}]"
         )
 
@@ -252,8 +254,8 @@ class ProgressHook:
             self._progress = None
             self._task_id  = None
         console.print(
-            f"[{_ERR}]✗[/{_ERR}] [white]Error:[/white] "
-            f"[{_ERR}]{d.get('error', 'Error desconocido')}[/{_ERR}]"
+            f"[{_ERR}]✗[/{_ERR}] [white]{_('Error:')}[/white] "
+            f"[{_ERR}]{d.get('error', _('Unknown error'))}[/{_ERR}]"
         )
 
 

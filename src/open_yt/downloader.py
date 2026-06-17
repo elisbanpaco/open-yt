@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import yt_dlp
 
 from open_yt.config import Settings
+from open_yt.i18n import _
 from open_yt.ui import ProgressHook, console, show_media_info, get_status_spinner
 
 
@@ -65,11 +66,11 @@ class MediaDownloader:
             "extract_flat": False,
             "noplaylist": True,
         }
-        with get_status_spinner("Extrayendo metadatos..."):
+        with get_status_spinner(_("Extracting metadata...")):
             with yt_dlp.YoutubeDL(opts) as ydl:
                 info = ydl.extract_info(url, download=False)
                 if info is None:
-                    raise ValueError("No se pudo obtener información del video")
+                    raise ValueError(_("Could not retrieve video information"))
                 return info
 
     def _show_info(self, info: Dict[str, Any]) -> None:
@@ -99,29 +100,31 @@ class MediaDownloader:
         output_path = output or self.settings.download_path
         audio_quality = quality or self.settings.default_audio_quality
 
-        console.print(f"\n[cyan]🎵 Obteniendo información del audio...[/cyan]\n")
+        console.print(f"\n[cyan]🎵 {_('Getting audio information...')}[/cyan]\n")
 
         try:
             info = self._extract_info(url)
             self._show_info(info)
         except Exception as e:
-            console.print(f"[red]Error al obtener información:[/red] {e}")
+            console.print(f"[red]{_('Error retrieving information:')}[/red] {e}")
             return False
 
-        console.print(f"\n[cyan]⬇️  Descargando audio en formato {self.settings.default_audio_format} ({audio_quality}kbps)...[/cyan]\n")
+        msg = _('Downloading audio in format {format} ({quality}kbps)...').format(
+            format=self.settings.default_audio_format, quality=audio_quality)
+        console.print(f"\n[cyan]⬇️  {msg}[/cyan]\n")
 
         opts = self._get_audio_opts(audio_quality, output_path)
 
         try:
             with yt_dlp.YoutubeDL(opts) as ydl:
                 ydl.download([url])
-            console.print(f"\n[green]✓[/green] Audio descargado en: {output_path}")
+            console.print(f"\n[green]✓[/green] {_('Audio downloaded to:')} {output_path}")
             return True
         except yt_dlp.utils.DownloadError as e:
-            console.print(f"\n[red]✗[/red] Error en la descarga: {e}")
+            console.print(f"\n[red]✗[/red] {_('Download error:')} {e}")
             return False
         except Exception as e:
-            console.print(f"\n[red]✗[/red] Error inesperado: {e}")
+            console.print(f"\n[red]✗[/red] {_('Unexpected error:')} {e}")
             return False
 
     def get_info(self, url: str) -> Optional[Dict[str, Any]]:
@@ -131,7 +134,7 @@ class MediaDownloader:
             self._show_info(info)
             return info
         except Exception as e:
-            console.print(f"[red]Error al obtener información:[/red] {e}")
+            console.print(f"[red]{_('Error retrieving information:')}[/red] {e}")
             return None
 
     def download_video(
@@ -144,27 +147,28 @@ class MediaDownloader:
         output_path = output or self.settings.download_path
         video_quality = quality or self.settings.default_video_res
 
-        console.print(f"\n[cyan]📺 Obteniendo información del video...[/cyan]\n")
+        console.print(f"\n[cyan]📺 {_('Getting video information...')}[/cyan]\n")
 
         try:
             info = self._extract_info(url)
             self._show_info(info)
         except Exception as e:
-            console.print(f"[red]Error al obtener información:[/red] {e}")
+            console.print(f"[red]{_('Error retrieving information:')}[/red] {e}")
             return False
 
-        console.print(f"\n[cyan]⬇️  Descargando video en calidad {video_quality}p...[/cyan]\n")
+        msg = _('Downloading video in {quality}p quality...').format(quality=video_quality)
+        console.print(f"\n[cyan]⬇️  {msg}[/cyan]\n")
 
         opts = self._get_video_opts(video_quality, output_path)
 
         try:
             with yt_dlp.YoutubeDL(opts) as ydl:
                 ydl.download([url])
-            console.print(f"\n[green]✓[/green] Video descargado en: {output_path}")
+            console.print(f"\n[green]✓[/green] {_('Video downloaded to:')} {output_path}")
             return True
         except yt_dlp.utils.DownloadError as e:
-            console.print(f"\n[red]✗[/red] Error en la descarga: {e}")
+            console.print(f"\n[red]✗[/red] {_('Download error:')} {e}")
             return False
         except Exception as e:
-            console.print(f"\n[red]✗[/red] Error inesperado: {e}")
+            console.print(f"\n[red]✗[/red] {_('Unexpected error:')} {e}")
             return False

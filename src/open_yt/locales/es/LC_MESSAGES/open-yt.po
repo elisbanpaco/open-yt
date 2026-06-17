@@ -1,0 +1,213 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: open-yt 0.1.1.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-16 22:15-0500\n"
+"PO-Revision-Date: 2026-06-16 22:15-0500\n"
+"Last-Translator: \n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Extracting metadata..."
+msgstr "Extrayendo metadatos..."
+
+msgid "Could not retrieve video information"
+msgstr "No se pudo obtener información del video"
+
+msgid "Getting audio information..."
+msgstr "Obteniendo información del audio..."
+
+msgid "Error retrieving information:"
+msgstr "Error al obtener información:"
+
+msgid "Downloading audio in format {format} ({quality}kbps)..."
+msgstr "Descargando audio en formato {format} ({quality}kbps)..."
+
+msgid "Audio downloaded to:"
+msgstr "Audio descargado en:"
+
+msgid "Download error:"
+msgstr "Error en la descarga:"
+
+msgid "Unexpected error:"
+msgstr "Error inesperado:"
+
+msgid "Getting video information..."
+msgstr "Obteniendo información del video..."
+
+msgid "Downloading video in {quality}p quality..."
+msgstr "Descargando video en calidad {quality}p..."
+
+msgid "Video downloaded to:"
+msgstr "Video descargado en:"
+
+msgid "Unknown"
+msgstr "Desconocido"
+
+msgid "Title:"
+msgstr "Titulo:"
+
+msgid "Channel:"
+msgstr "Canal:"
+
+msgid "Duration:"
+msgstr "Duracion:"
+
+msgid "Views:"
+msgstr "Vistas:"
+
+msgid "Likes:"
+msgstr "Likes:"
+
+msgid "Date:"
+msgstr "Fecha:"
+
+msgid "Resolution:"
+msgstr "Resolucion:"
+
+msgid "Information"
+msgstr "Información"
+
+msgid "Paths"
+msgstr "Rutas"
+
+msgid "Directory:"
+msgstr "Directorio:"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Format:"
+msgstr "Formato:"
+
+msgid "Quality:"
+msgstr "Calidad:"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Extras"
+msgstr "Extras"
+
+msgid "Enabled"
+msgstr "Activada"
+
+msgid "Disabled"
+msgstr "Desactivada"
+
+msgid "Embedded thumbnail:"
+msgstr "Portada incrustada:"
+
+msgid "Configuration"
+msgstr "Configuracion"
+
+msgid "Downloading"
+msgstr "Descargando"
+
+msgid "File"
+msgstr "Archivo"
+
+msgid "Download complete:"
+msgstr "Descarga completada:"
+
+msgid "Error:"
+msgstr "Error:"
+
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+msgid "What do you want to do?"
+msgstr "Que deseas hacer?"
+
+msgid "Download Audio"
+msgstr "Descargar Audio"
+
+msgid "Download Video"
+msgstr "Descargar Video"
+
+msgid "Exit"
+msgstr "Salir"
+
+msgid "Goodbye."
+msgstr "Hasta luego."
+
+msgid "Enter YouTube URL:"
+msgstr "Ingresa la URL de YouTube:"
+
+msgid "Please enter a valid URL"
+msgstr "Por favor ingresa una URL valida"
+
+msgid "URL is required"
+msgstr "URL requerida"
+
+msgid "Download complete"
+msgstr "Descarga completada"
+
+msgid "Download failed"
+msgstr "La descarga fallo"
+
+msgid "Do you want to perform another action?"
+msgstr "Deseas realizar otra accion?"
+
+msgid "View current configuration"
+msgstr "Ver configuracion actual"
+
+msgid "Change download directory"
+msgstr "Cambiar directorio de descarga"
+
+msgid "Change audio format"
+msgstr "Cambiar formato de audio"
+
+msgid "Change audio quality"
+msgstr "Cambiar calidad de audio"
+
+msgid "Change video format"
+msgstr "Cambiar formato de video"
+
+msgid "Change video resolution"
+msgstr "Cambiar resolucion de video"
+
+msgid "Toggle embedded thumbnail"
+msgstr "Alternar portada incrustada"
+
+msgid "Return to main menu"
+msgstr "Volver al menu principal"
+
+msgid "New path (current: {path}):"
+msgstr "Nueva ruta (actual: {path}):"
+
+msgid "Directory '{path}' does not exist. Create it?"
+msgstr "El directorio '{path}' no existe. Desea crearlo?"
+
+msgid "Directory not created. Configuration unchanged."
+msgstr "Directorio no creado. Configuracion sin cambios."
+
+msgid "Configuration updated and saved."
+msgstr "Configuracion actualizada y guardada."
+
+msgid "Invalid directory."
+msgstr "Directorio no valido."
+
+msgid "Select audio format (current: {format}):"
+msgstr "Selecciona el formato de audio (actual: {format}):"
+
+msgid "Select audio quality in kbps (current: {quality}):"
+msgstr "Selecciona la calidad de audio en kbps (actual: {quality}):"
+
+msgid "Select video format (current: {format}):"
+msgstr "Selecciona el formato de video (actual: {format}):"
+
+msgid "Select video resolution (current: {res}p):"
+msgstr "Selecciona la resolucion de video (actual: {res}p):"
+
+msgid "enabled"
+msgstr "activada"
+
+msgid "disabled"
+msgstr "desactivada"
+
+msgid "Embedded thumbnail"
+msgstr "Portada incrustada"
