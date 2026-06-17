@@ -34,6 +34,11 @@ class MediaDownloader:
         if embed:
             postprocessors.append({"key": "EmbedThumbnail"})
 
+        postprocessors.append({
+            "key": "FFmpegMetadata",
+            "add_metadata": True,
+        })
+
         return {
             "format": "bestaudio/best",
             "outtmpl": str(output_path / "%(title)s.%(ext)s"),
