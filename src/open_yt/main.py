@@ -15,8 +15,18 @@ from open_yt.ui import show_panel, show_welcome_screen, show_current_config
 from open_yt.i18n import _
 
 app = typer.Typer(
-    name="wolfcode",
-    help="CLI profesional para descargar contenido de YouTube",
+    name="open-yt",
+    help="""
+    CLI profesional para descargar contenido de YouTube.
+    
+    ✨ MODO INTERACTIVO:
+    Simplemente ejecuta 'open-yt' sin argumentos para abrir el menú principal.
+    
+    ⚡ MODO RÁPIDO (Fast Path):
+    Pega directamente una URL para saltarte los menús:
+      open-yt https://youtu.be/...       (Descarga el video por defecto)
+      open-yt https://youtu.be/... -a    (Descarga solo el audio en MP3)
+    """,
     add_completion=False,
 )
 console = Console()
@@ -414,7 +424,7 @@ def config_reset(
 @app.command()
 def version():
     """Mostrar version de la aplicacion"""
-    console.print("[cyan bold]WOLFCODE v1.0.0[/cyan bold]")
+    console.print("[cyan bold]OPEN-YT v0.1.1.6[/cyan bold]")
 
 @app.command("get", hidden=True)
 def fast_download(
