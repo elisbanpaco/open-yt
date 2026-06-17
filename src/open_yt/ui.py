@@ -73,7 +73,7 @@ def show_welcome_screen() -> None:
     console.print(Rule(style=_DIM), width=68)
 
     meta = Text(justify="center")
-    meta.append("v0.1.1.4", style=f"bold {_C2}")
+    meta.append("v0.1.1.5", style=f"bold {_C2}")
     meta.append("  ·  ", style=_DIM)
     meta.append("Open Source Media Engine", style=_DIM)
     console.print(meta)
