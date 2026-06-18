@@ -257,3 +257,14 @@ msgstr "Resolucion por defecto"
 msgid "Configuration (Select to edit)"
 msgstr "Configuracion (Selecciona para editar)"
 
+msgid "Looking for critical engine updates (yt-dlp)..."
+msgstr "Buscando actualizaciones críticas para el motor (yt-dlp)..."
+
+msgid "✓ Engine successfully updated and tuned. Ready to download!"
+msgstr "✓ Motor actualizado y afinado con éxito. ¡Listo para descargar!"
+
+msgid "✗ Could not update automatically. Run manually:"
+msgstr "✗ No se pudo actualizar automáticamente. Ejecuta manualmente:"
+
+msgid "✗ Fatal error trying to update:"
+msgstr "✗ Error fatal al intentar actualizar:"

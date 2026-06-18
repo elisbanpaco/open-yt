@@ -425,13 +425,13 @@ def config_reset(
 @app.command()
 def version():
     """Mostrar version de la aplicacion"""
-    console.print("[cyan bold]OPEN-YT v0.1.1.6[/cyan bold]")
+    console.print("[cyan bold]OPEN-YT v0.1.2.0[/cyan bold]")
 
 @app.command()
 def update():
     """Actualiza el motor de descarga (yt-dlp) para evitar bloqueos de YouTube."""
     import shutil
-    console.print("[yellow]Buscando actualizaciones críticas para el motor (yt-dlp)...[/yellow]")
+    console.print(f"[yellow]{_('Looking for critical engine updates (yt-dlp)...')}[/yellow]")
     
     if shutil.which("uv"):
         cmd = ["uv", "pip", "install", "--upgrade", "yt-dlp"]
@@ -447,12 +447,12 @@ def update():
             text=True
         )
         if result.returncode == 0:
-            console.print("[green]✓ Motor actualizado y afinado con éxito. ¡Listo para descargar![/green]")
+            console.print(f"[green]{_('✓ Engine successfully updated and tuned. Ready to download!')}[/green]")
         else:
-            console.print("[red]✗ No se pudo actualizar automáticamente. Ejecuta manualmente:[/red]")
+            console.print(f"[red]{_('✗ Could not update automatically. Run manually:')}[/red]")
             console.print("   [cyan]pip install --upgrade yt-dlp[/cyan]")
     except Exception as e:
-        console.print(f"[red]✗ Error fatal al intentar actualizar: {e}[/red]")
+        console.print(f"[red]{_('✗ Fatal error trying to update:')} {e}[/red]")
 
 @app.command("get", hidden=True)
 def fast_download(
