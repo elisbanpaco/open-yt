@@ -3,6 +3,7 @@ from typing import Any, Dict, Optional
 from rich import box
 
 from open_yt.i18n import _
+from open_yt.symbols import Symbols
 from rich.console import Console
 from rich.panel import Panel
 from rich.progress import (
@@ -250,7 +251,7 @@ class ProgressHook:
             self._progress = None
             self._task_id  = None
         console.print(
-            f"[{_ERR}]✗[/{_ERR}] [white]{_('Error:')}[/white] "
+            f"[{_ERR}]{Symbols.ERROR}[/{_ERR}] [white]{_('Error:')}[/white] "
             f"[{_ERR}]{d.get('error', _('Unknown error'))}[/{_ERR}]"
         )
 

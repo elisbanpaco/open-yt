@@ -14,16 +14,18 @@ from open_yt.config import Settings, get_settings, reload_settings
 from open_yt.downloader import MediaDownloader
 from open_yt.ui import show_panel, show_welcome_screen, show_current_config
 from open_yt.i18n import _
+from open_yt.updater import update_engine, is_frozen
+from open_yt.symbols import Symbols
 
 app = typer.Typer(
     name="open-yt",
     help="""
     CLI profesional para descargar contenido de YouTube.
     
-    ✨ MODO INTERACTIVO:
+    MODO INTERACTIVO:
     Simplemente ejecuta 'open-yt' sin argumentos para abrir el menú principal.
     
-    ⚡ MODO RÁPIDO (Fast Path):
+    MODO RÁPIDO (Fast Path):
     Pega directamente una URL para saltarte los menús:
       open-yt https://youtu.be/...       (Descarga el video por defecto)
       open-yt https://youtu.be/... -a    (Descarga solo el audio en MP3)
@@ -71,7 +73,7 @@ def run_interactive_menu() -> None:
             _("Configuration"),
             _("Exit"),
         ],
-        qmark=">",
+        qmark=Symbols.POINTER,
         style=WAVE_STYLE,
     ).ask())
 
@@ -88,7 +90,7 @@ def run_interactive_menu() -> None:
 
     url = safe_questionary(lambda: questionary.text(
         _("Enter YouTube URL:"),
-        qmark=">",
+        qmark=Symbols.POINTER,
         style=WAVE_STYLE,
         validate=lambda x: len(x) > 0 or _("Please enter a valid URL"),
     ).ask())
@@ -119,7 +121,7 @@ def run_interactive_menu() -> None:
             _("Custom Video Download..."),
             _("Cancel"),
         ],
-        qmark=">",
+        qmark=Symbols.POINTER,
         style=WAVE_STYLE,
     ).ask())
 
@@ -155,9 +157,9 @@ def run_interactive_menu() -> None:
             success = downloader.download_video(url, quality=res_choice)
 
     if success:
-        console.print(f"\n[green]✓[/green] {_('Download complete')}")
+        console.print(f"\n[green]{Symbols.SUCCESS}[/green] {_('Download complete')}")
     else:
-        console.print(f"\n[red]✗[/red] {_('Download failed')}")
+        console.print(f"\n[red]{Symbols.ERROR}[/red] {_('Download failed')}")
 
     continue_choice = safe_questionary(lambda: questionary.confirm(
         _("Do you want to perform another action?"),
@@ -289,7 +291,7 @@ def config_menu() -> None:
                 questionary.Separator("────────────────────────────────────────"),
                 opt_back,
             ],
-            qmark=">",
+            qmark=Symbols.POINTER,
             style=WAVE_STYLE,
         ).ask())
 
@@ -302,7 +304,7 @@ def config_menu() -> None:
                 _("New path (current: {path}):").format(path=current_path),
                 default=current_path,
                 only_directories=True,
-                qmark=">",
+                qmark=Symbols.POINTER,
                 style=WAVE_STYLE,
             ).ask())
 
@@ -328,7 +330,7 @@ def config_menu() -> None:
                 _("Select audio format:"),
                 choices=["mp3", "m4a", "wav", "flac"],
                 default=settings.default_audio_format,
-                qmark=">",
+                qmark=Symbols.POINTER,
                 style=WAVE_STYLE,
             ).ask())
             if new_format:
@@ -341,7 +343,7 @@ def config_menu() -> None:
                 _("Select audio quality in kbps:"),
                 choices=["320", "256", "192", "128"],
                 default=settings.default_audio_quality,
-                qmark=">",
+                qmark=Symbols.POINTER,
                 style=WAVE_STYLE,
             ).ask())
             if new_quality:
@@ -354,7 +356,7 @@ def config_menu() -> None:
                 _("Select video format:"),
                 choices=["mp4", "mkv", "webm"],
                 default=settings.default_video_format,
-                qmark=">",
+                qmark=Symbols.POINTER,
                 style=WAVE_STYLE,
             ).ask())
             if new_format:
@@ -367,7 +369,7 @@ def config_menu() -> None:
                 _("Select video resolution:"),
                 choices=["2160", "1080", "720", "480", "360"],
                 default=settings.default_video_res,
-                qmark=">",
+                qmark=Symbols.POINTER,
                 style=WAVE_STYLE,
             ).ask())
             if new_res:
@@ -417,7 +419,7 @@ def config_reset(
     if confirm:
         settings = Settings()
         settings.save()
-        console.print("[yellow]✓[/yellow] Configuración restablecida a valores por defecto")
+        console.print(f"[yellow]{Symbols.SUCCESS}[/yellow] Configuración restablecida a valores por defecto")
     else:
         console.print("[red]Usa --yes para confirmar el reset[/red]")
 
@@ -425,34 +427,25 @@ def config_reset(
 @app.command()
 def version():
     """Mostrar version de la aplicacion"""
-    console.print("[cyan bold]OPEN-YT v0.1.2.0[/cyan bold]")
+    import importlib.metadata
+    try:
+        ver = importlib.metadata.version("open-yt")
+    except Exception:
+        ver = "0.1.2.0"
+    console.print(f"[cyan bold]OPEN-YT v{ver}[/cyan bold]")
 
 @app.command()
 def update():
     """Actualiza el motor de descarga (yt-dlp) para evitar bloqueos de YouTube."""
-    import shutil
     console.print(f"[yellow]{_('Looking for critical engine updates (yt-dlp)...')}[/yellow]")
     
-    if shutil.which("uv"):
-        cmd = ["uv", "pip", "install", "--upgrade", "yt-dlp"]
+    success, msg = update_engine()
+    if success:
+        console.print(f"[green]{Symbols.SUCCESS} {_('Engine successfully updated and tuned. Ready to download!')}[/green]")
     else:
-        cmd = [sys.executable, "-m", "pip", "install", "--upgrade", "yt-dlp"]
-
-    try:
-        # Ejecutamos de forma silenciosa
-        result = subprocess.run(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        if result.returncode == 0:
-            console.print(f"[green]{_('✓ Engine successfully updated and tuned. Ready to download!')}[/green]")
-        else:
-            console.print(f"[red]{_('✗ Could not update automatically. Run manually:')}[/red]")
-            console.print("   [cyan]pip install --upgrade yt-dlp[/cyan]")
-    except Exception as e:
-        console.print(f"[red]{_('✗ Fatal error trying to update:')} {e}[/red]")
+        console.print(f"[red]{Symbols.ERROR} {_('Could not update automatically:')}[/red] {msg}")
+        if not is_frozen():
+            console.print(f"[dim]{_('Run manually:')}[/dim] [cyan]pip install --upgrade yt-dlp[/cyan]")
 
 @app.command("get", hidden=True)
 def fast_download(
