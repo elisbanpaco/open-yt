@@ -108,7 +108,7 @@ class MediaDownloader:
                     console.print(f"\n[yellow]{Symbols.WARNING} {_('YouTube blocked metadata extraction (HTTP 403 Forbidden). Engine might be outdated.')}[/yellow]")
                     if not is_frozen():
                         console.print(f"[cyan]{Symbols.RETRY} {_('Attempting automatic engine update (yt-dlp)...')}[/cyan]")
-                        success, _ = update_engine()
+                        success, update_msg = update_engine()
                         if success:
                             console.print(f"[green]{Symbols.SUCCESS} {_('Engine successfully updated! Retrying metadata extraction...')}[/green]\n")
                             return self._extract_info(url, _retried=True)
