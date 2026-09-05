@@ -17,7 +17,7 @@ dependencies = [
     "tomli>=2.0.1; python_version < '3.11'",
     "tomli-w>=1.2.0",
     "typer>=0.25.1",
-    "yt-dlp>=2026.3.17",
+    "yt-dlp>=2026.8.19",
 ]
 
 [project.scripts]
