@@ -260,11 +260,48 @@ msgstr "Configuracion (Selecciona para editar)"
 msgid "Looking for critical engine updates (yt-dlp)..."
 msgstr "Buscando actualizaciones críticas para el motor (yt-dlp)..."
 
-msgid "✓ Engine successfully updated and tuned. Ready to download!"
-msgstr "✓ Motor actualizado y afinado con éxito. ¡Listo para descargar!"
+msgid "Engine successfully updated and tuned. Ready to download!"
+msgstr "Motor actualizado y afinado con éxito. ¡Listo para descargar!"
 
-msgid "✗ Could not update automatically. Run manually:"
-msgstr "✗ No se pudo actualizar automáticamente. Ejecuta manualmente:"
+msgid "Could not update automatically. Run manually:"
+msgstr "No se pudo actualizar automáticamente. Ejecuta manualmente:"
 
-msgid "✗ Fatal error trying to update:"
-msgstr "✗ Error fatal al intentar actualizar:"
+msgid "Fatal error trying to update:"
+msgstr "Error fatal al intentar actualizar:"
+
+msgid "Running as standalone executable. Please download the latest release from GitHub: https://github.com/elisbanpaco/open-yt/releases"
+msgstr "Ejecutando como binario independiente. Por favor descarga la última versión desde GitHub: https://github.com/elisbanpaco/open-yt/releases"
+
+msgid "Engine (yt-dlp) successfully updated."
+msgstr "Motor (yt-dlp) actualizado con éxito."
+
+msgid "Could not update yt-dlp."
+msgstr "No se pudo actualizar yt-dlp."
+
+msgid "YouTube blocked the download (HTTP 403 Forbidden). Engine might be outdated."
+msgstr "YouTube bloqueó la descarga (HTTP 403 Forbidden). Es posible que el motor esté desactualizado."
+
+msgid "Running as standalone binary. Please download the latest release from GitHub."
+msgstr "Ejecutando como binario independiente. Por favor descarga la última versión desde GitHub Releases."
+
+msgid "Attempting automatic engine update (yt-dlp)..."
+msgstr "Intentando auto-actualizar el motor (yt-dlp)..."
+
+msgid "Engine successfully updated! Retrying download..."
+msgstr "¡Motor actualizado con éxito! Reintentando la descarga..."
+
+msgid "Automatic update could not proceed:"
+msgstr "La actualización automática no pudo completarse:"
+
+msgid "YouTube blocked metadata extraction (HTTP 403 Forbidden). Engine might be outdated."
+msgstr "YouTube bloqueó la extracción de metadatos (HTTP 403 Forbidden). Es posible que el motor esté desactualizado."
+
+msgid "Engine successfully updated! Retrying metadata extraction..."
+msgstr "¡Motor actualizado con éxito! Reintentando extracción de metadatos..."
+
+msgid "Could not update automatically:"
+msgstr "No se pudo actualizar automáticamente:"
+
+msgid "Run manually:"
+msgstr "Ejecuta manualmente:"
+
