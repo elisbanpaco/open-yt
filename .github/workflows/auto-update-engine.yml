@@ -1,0 +1,114 @@
+name: Auto Update Engine & Releases
+
+on:
+  schedule:
+    # Se ejecuta todos los domingos a las 03:00 UTC
+    - cron: '0 3 * * 0'
+  workflow_dispatch: # Permite ejecución manual desde GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check latest yt-dlp version on PyPI
+        id: check_yt_dlp
+        run: |
+          LATEST_YTDLP=$(curl -s https://pypi.org/pypi/yt-dlp/json | jq -r '.info.version')
+          echo "latest_ytdlp=$LATEST_YTDLP" >> "$GITHUB_OUTPUT"
+
+          CURRENT_YTDLP=$(grep -oP 'yt-dlp>=?\K[0-9.]+' pyproject.toml || echo "none")
+          echo "current_ytdlp=$CURRENT_YTDLP" >> "$GITHUB_OUTPUT"
+
+          echo "Última versión en PyPI: $LATEST_YTDLP"
+          echo "Versión actual en pyproject.toml: $CURRENT_YTDLP"
+
+          if [ "$LATEST_YTDLP" != "$CURRENT_YTDLP" ]; then
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Update dependencies and bump version
+        if: steps.check_yt_dlp.outputs.needs_update == 'true'
+        id: bump_version
+        run: |
+          LATEST="${{ steps.check_yt_dlp.outputs.latest_ytdlp }}"
+          
+          # Actualizar dependencia yt-dlp con uv
+          uv add "yt-dlp>=$LATEST"
+          
+          # Incrementar versión de parche en pyproject.toml
+          python3 - << 'EOF'
+          import os
+          import re
+
+          with open('pyproject.toml', 'r', encoding='utf-8') as f:
+              content = f.read()
+
+          m = re.search(r'version\s*=\s*\"([^\"]+)\"', content)
+          if m:
+              old_ver = m.group(1)
+              parts = [int(p) for p in old_ver.split('.')]
+              parts[-1] += 1
+              new_ver = '.'.join(str(p) for p in parts)
+              new_content = content[:m.start(1)] + new_ver + content[m.end(1):]
+              with open('pyproject.toml', 'w', encoding='utf-8') as f:
+                  f.write(new_content)
+              print(f"Versión actualizada: {old_ver} -> {new_ver}")
+              out_path = os.environ.get('GITHUB_OUTPUT')
+              if out_path:
+                  with open(out_path, 'a', encoding='utf-8') as out:
+                      out.write(f"new_version={new_ver}\n")
+          EOF
+
+      - name: Commit and push changes
+        if: steps.check_yt_dlp.outputs.needs_update == 'true'
+        run: |
+          NEW_VER="${{ steps.bump_version.outputs.new_version }}"
+          LATEST="${{ steps.check_yt_dlp.outputs.latest_ytdlp }}"
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add pyproject.toml uv.lock
+          git commit -m "chore(engine): auto-update yt-dlp to v${LATEST} and bump open-yt to v${NEW_VER}"
+          git push origin main
+
+      - name: Create GitHub Release
+        if: steps.check_yt_dlp.outputs.needs_update == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_VER="${{ steps.bump_version.outputs.new_version }}"
+          LATEST="${{ steps.check_yt_dlp.outputs.latest_ytdlp }}"
+          
+          cat << EOF > release_notes.md
+          ### Actualización automática del motor de descargas
+
+          - **yt-dlp**: Actualizado a la versión \`${LATEST}\` para evadir bloqueos de YouTube (HTTP 403 Forbidden).
+          - Los binarios ejecutables para Windows, Linux y macOS se compilarán automáticamente a continuación.
+
+          _Actualización periódica generada por GitHub Actions._
+          EOF
+          
+          gh release create "v${NEW_VER}" \
+            --title "open-yt v${NEW_VER} (Motor yt-dlp ${LATEST})" \
+            --notes-file release_notes.md

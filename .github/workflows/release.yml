@@ -25,30 +25,30 @@ jobs:
             release_name: open-yt-macos
 
     steps:
-    - name: 📥 Checkout código
+    - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: 🐍 Configurar Python
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
-    - name: 📦 Instalar dependencias
+    - name: Install dependencies
       shell: bash
       run: |
         python -m pip install --upgrade pip
         pip install pyinstaller
         pip install .
 
-    - name: 🔨 Compilar ejecutable con PyInstaller
+    - name: Build executable with PyInstaller
       shell: bash
       run: pyinstaller --onefile --name open-yt --hidden-import rich --hidden-import questionary --hidden-import typer --hidden-import pydantic_settings --hidden-import yt_dlp --hidden-import mutagen src/open_yt/main.py
 
-    - name: 🏷️ Renombrar binario
+    - name: Rename binary
       shell: bash
       run: mv ${{ matrix.binary_path }} dist/${{ matrix.release_name }}
 
-    - name: 🚀 Subir a GitHub Releases
+    - name: Upload to GitHub Releases
       uses: softprops/action-gh-release@v2
       with:
         files: dist/${{ matrix.release_name }}

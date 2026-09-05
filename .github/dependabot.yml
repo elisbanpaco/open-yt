@@ -1,0 +1,14 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      engine:
+        patterns:
+          - "yt-dlp*"
+      dependencies:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 10
