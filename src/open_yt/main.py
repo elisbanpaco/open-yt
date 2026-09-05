@@ -427,12 +427,8 @@ def config_reset(
 @app.command()
 def version():
     """Mostrar version de la aplicacion"""
-    import importlib.metadata
-    try:
-        ver = importlib.metadata.version("open-yt")
-    except Exception:
-        ver = "0.1.2.0"
-    console.print(f"[cyan bold]OPEN-YT v{ver}[/cyan bold]")
+    from open_yt import __version__
+    console.print(f"[cyan bold]OPEN-YT v{__version__}[/cyan bold]")
 
 @app.command()
 def update():

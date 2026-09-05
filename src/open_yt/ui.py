@@ -2,6 +2,7 @@ from typing import Any, Dict, Optional
 
 from rich import box
 
+from open_yt import __version__
 from open_yt.i18n import _
 from open_yt.symbols import Symbols
 from rich.console import Console
@@ -76,7 +77,7 @@ def show_welcome_screen() -> None:
     console.print(Rule(style=_DIM), width=68)
 
     meta = Text(justify="center")
-    meta.append("v0.1.2.0", style=f"bold {_C2}")
+    meta.append(f"v{__version__}", style=f"bold {_C2}")
     meta.append("  ·  ", style=_DIM)
     meta.append("Open Source Media Engine", style=_DIM)
     console.print(meta)
